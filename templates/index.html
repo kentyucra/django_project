@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width">
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+    <script src="/residencias/utils/uri.js"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/maps.js' %}"></script>
+    <link href="{% static 'css/foundation.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet"/>
+</head>
+
+<body>
+
+<nav class="top-bar" data-topbar role="navigation" style="z-index:100">
+    <ul class="title-area">
+        <li class="name">
+            <h1><a href="#">ResiUni</a></h1>
+        </li>
+        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    </ul>
+
+    <section class="top-bar-section">
+        <ul class="right">
+            <li class="divider"></li>
+            <li>
+                <a href="#" id="modal-nueva-residencia">Nueva Residencia</a>
+            </li>
+
+        </ul>
+        <ul>
+            <li class="divider"></li>
+            <li class="has-dropdown">
+                <a href="#">Institucion</a>
+                <ul class="dropdown">
+                    {% for row in data %}
+                    <li class="has-dropdown">
+                        <a href="#">{{row.institucion.name}}</a>
+                        <ul class="dropdown">
+                            {% for sede in row.sedes %}
+                            <li>
+                                <a href="#" data-lat="{{sede.latitude}}" data-lng="{{sede.longitude}}" class="sede">{{sede.name}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="divider"></li>
+        </ul>
+    </section>
+</nav>
+
+<div id="leyenda">
+    <div class="panel">
+        {% for row in tipo %}
+        <div class="row">
+            <div class="large-12 columns">
+                {% if row.id == 1 %}
+                <img src="{% static 'img/icons/green.png' %}" width="24">
+                {% endif %}
+                {% if row.id == 2 %}
+                <img src="{% static 'img/icons/blue.png' %}" width="24">
+                {% endif %}
+                {% if row.id == 3 %}
+                <img src="{% static 'img/icons/red.png' %}" width="24">
+                {% endif %}
+                {% if row.id == 4 %}
+                <img src="{% static 'img/icons/yellow.png' %}" width="24">
+                {% endif %}
+                {{row.name}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<div id="content" class="row">
+    <div id="side-nav">
+        <div class="panel">
+            <form id="form-filtro" class="">
+                <div class="large-12 columns text-center large-text">
+                    Buscar por atributos <br><br>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <!--<button class="button small success" id="btn-filtro">Filtro Tipo de Residencia</button>-->
+                        <div id="filtro">
+                            <div class="row">
+                                {% for row in tipo %}
+                                <div class="large-4 columns">
+                                    <label>
+                                        {% if row.id == 1 %}
+                                        <img src="{% static 'img/icons/green.png' %}" width="24">
+                                        {% endif %}
+                                        {% if row.id == 2 %}
+                                        <img src="{% static 'img/icons/blue.png' %}" width="24">
+                                        {% endif %}
+                                        {% if row.id == 3 %}
+                                        <img src="{% static 'img/icons/red.png' %}" width="24">
+                                        {% endif %}
+                                        {% if row.id == 4 %}
+                                        <img src="{% static 'img/icons/yellow.png' %}" width="24">
+                                        {% endif %}
+                                        &nbsp;
+                                        <input type="checkbox" value="{{row.name}}" name="tipo_residencia" checked>
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-2 columns">
+                        <label>Desde:</label>
+                    </div>
+                    <div class="large-3 columns">
+
+                        <select name="price_from">
+                            <option value="0" selected>0</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="200">200</option>
+                            <option value="250">250</option>
+                            <option value="300">300</option>
+                            <option value="350">350</option>
+                        </select>
+
+                    </div>
+                    <div class="columns large-2">
+                        <label>Hasta:</label>
+                    </div>
+                    <div class="large-5 columns">
+
+                        <select name="price_until">
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="200">200</option>
+                            <option value="250">250</option>
+                            <option value="300">300</option>
+                            <option value="350">350</option>
+                            <option value="1000000" selected>Sin Limite</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns large-3">
+                        <label>Genero:</label>
+                    </div>
+                    <div class="columns large-9">
+                        <select name="genero">
+                            <option value="Masculino y Femenino">Masculino y Femenino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns text-center">
+                        <input type="submit" class="button expand tiny" value="Buscar"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="large-12 columns panel">
+                <table role="grid" width="100%">
+                    <thead>
+                    <th style="width:30px"></th>
+                    <th >Título</th>
+                    <th style="width:30px"></th>
+                    </thead>
+                    <tbody id="lista-residencias">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="map"></div>
+</div>
+
+<div id="nueva-residencia" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+     role="dialog">
+    <h2 id="modalTitle">Nueva Residencia</h2>
+
+    <p class="lead">
+
+    <form id="form-nueva-residencia">
+        <div class="row">
+            <div class="large-6 columns text-center panel">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div id="map-residencia" style="height:600px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="large-6 columns">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <input type="hidden" name="latitude" id="latitud"/>
+                        <input type="hidden" name="longitude" id="longitud"/>
+                        <label>
+                            Titulo:
+                            <input type="text" name="titulo" required/>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-6 columns">
+                        <label>Tipo de Residencia:
+                            <select name="tipo_residencia">
+                                {% for row in tipo %}
+                                <option value="{{row.name}}">{{row.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                    </div>
+                    <div class="large-6 columns">
+                        <label>Genero:
+                            <select name="genero">
+                                <option value="Masculino y Femenino">Masculino y Femenino</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <label>Dirección:
+                            <input type="text" name="direccion" required/>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-6 columns">
+                        <label>Teléfono 1:
+                            <input type="tel" name="phone1" required/>
+                        </label>
+                    </div>
+                    <div class="large-6 columns">
+                        <label>Teléfono 2:
+                            <input type="tel" name="phone2"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <label>Correo Electrónico:
+                            <input type="email" name="email"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <label>Descripción:
+                            <textarea name="descripcion" id="" cols="12" rows="10" required></textarea>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-6 columns">
+                        <label>Precios desde:
+                            <input type="number" name="price_from" required>
+                        </label>
+                    </div>
+                    <div class="large-6 columns">
+                        <label>Precios hasta:
+                            <input type="number" name="price_until" required>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <input type="submit" value="Registrar Residencia" class="button active"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </p>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+<script src="{% static 'js/foundation/foundation.js' %}"></script>
+<script src="{% static 'js/foundation/foundation.topbar.js' %}"></script>
+<script src="{% static 'js/foundation/foundation.reveal.js' %}"></script>
+<script>
+$(document).foundation();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

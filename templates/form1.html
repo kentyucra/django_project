@@ -1,0 +1,40 @@
+<html>
+<body>
+
+    {{ residencias_filters }}
+
+    {% if errors %}
+        <p>Usted tiene los siguientes errores:</p>
+        <ul>
+        {% for error in errors %}
+            <li style = "color:red;">{{ error }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form action="" method="get">
+        <p>
+            <STRONG>Tipo de Residencia</STRONG>
+            <INPUT TYPE="checkbox" NAME="tipo_residencia" value = "Habitacion" >Habitacion
+            <INPUT TYPE="checkbox" NAME="tipo_residencia" value = "Departamento">Departamento
+            <INPUT TYPE="checkbox" NAME="tipo_residencia" value = "Casa">Casa
+        </p>
+        <p>
+            <STRONG>Precio</STRONG>
+            <p>Precio desde: <input type="text" name="price_from" ></p>
+            <p>Precio Hasta: <input type="text" name="price_until"></p>
+
+        </p>
+        <p>
+            <STRONG>Genero</STRONG>
+            <select name = "genero">
+            <option value="Masculino y Femenino">Masculino y femenino</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+            </select>
+        </p>
+        <input type="submit" value = "submit">
+    </form>
+</body>
+</html>
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guardar residencia</title>
+</head>
+<body>
+    <form action="" method="get">
+        <p>
+            <STRONG>Titulo:</STRONG> <input type="text" name="titulo">
+        </p>
+        <p>
+            <STRONG>Tipo de Residencia</STRONG>
+            <select name = "tipo_residencia">
+            <option value="Habitacion">Habitacion</option>
+            <option value="Departamento">Departamento</option>
+            <option value="Casa">Casa</option>
+            </select>
+        </p>
+        <p>
+            <STRONG>Genero del inquilino</STRONG>
+            <select name = "genero">
+            <option value="Masculino y Femenino">Masculino y femenino</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+            </select>
+        </p>
+        <p>
+            <STRONG>Direccion </STRONG><input type="text" name="direccion" >
+        </p>
+        <p>
+            <STRONG>Telefono #1</STRONG><input type="text" name="phone1" >
+        </p>
+        <p>
+            <STRONG>Telefono #2 </STRONG><input type="text" name="phone2" >
+        </p>
+        <p>
+            <STRONG>Correo Electronico </STRONG><input type="text" name="email" >
+        </p>
+        <p>
+            Descripcion:<textarea name="descripcion" rows="10" cols="50"></textarea>
+        </p>
+        <p>
+            <STRONG>Precio</STRONG>
+            <p>Precio desde: <input type="text" name="price_from" ></p>
+            <p>Precio Hasta: <input type="text" name="price_until"></p>
+        </p>
+
+        <input type="submit" value = "submit">
+    </form>
+</body>
+</html>

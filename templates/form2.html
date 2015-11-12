@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Mostrando los datos...</title>
+</head>
+<body>
+    {% for residencia in residencias_filters %}
+        <table>
+            <tr>
+                <td>Titulo</td>
+                <td>{{ residencia.title }}</td>
+            </tr>
+            <tr>
+                <td>Latitud</td>
+                <td>{{ residencia.latitude }}</td>
+            </tr>
+            <tr>
+                <td>Longitud</td>
+                <td>{{ residencia.longitude }}</td>
+            </tr>
+        </table>
+    {% endfor %}
+
+</body>
+</html>
