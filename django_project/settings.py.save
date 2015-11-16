@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Django settings for django_project project.
 
@@ -64,18 +63,12 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #'NAME': 'django',
-        #'USER': 'django',
-        #'PASSWORD': 'yjB1fJGqLl',
-        #'HOST': 'localhost',
-        #'PORT': '',
-	'ENGINE': 'django.db.backends.mysql',
-	'NAME': 'resiuni',
-	'USER': 'root',
-	'PASSWORD': 'resiunipassword',
-	'HOST': '',
-	'PORT': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django',
+        'USER': 'django',
+        'PASSWORD': 'yjB1fJGqLl',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -98,5 +91,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT =  '/home/django/django_project/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+Â#print STATIC_ROOT
+
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'static', 'static_dirs'),
+#)
+
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
+
+#MEDIA_URL = '/media/'
